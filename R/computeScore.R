@@ -76,7 +76,8 @@ cancers = function() return(names(Signatures$index))
 #' @keywords score
 #' @export
 #' @examples
-#' Y = computeSignatureScore(example, "Brain")
+#' cancers()
+#' example_output = computeSignatureScore(example_input, "Brain")
 
 computeSignatureScore = function(X, cancer) {
     X = convertGeneNamesToGene_Id(X)

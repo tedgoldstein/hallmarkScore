@@ -9,12 +9,13 @@ computeSignatureScore(X, cancer)
 \arguments{
 \item{X}{gene dataframe expression dataset either in z-score or log2(n+1) normalized}
 
-\item{cancer}{string that shows thenames of the cancer}
+\item{cancer}{string that shows the names of the cancer}
 }
 \description{
-This function comuputes the oncology models fidelity scoreb based on the hallmarks of cancer
+This function computes the oncology models fidelity score based on the hallmarks of cancer
 }
 \examples{
-computeSignatureScore(df, "")
+cancers()
+example_output = computeSignatureScore(example_input, "Brain")
 }
 \keyword{score}
