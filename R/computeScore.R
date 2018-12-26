@@ -25,10 +25,49 @@ rank.normalize <- function(x, FUN=qnorm, ties.method = "average", na.action) {
     ret
 }
 
+convertGeneNamesToGene_Id = function(d) {
+
+  #convert gene Symbol to geneID
+  genename <- as.character(colnames(d))
+  GeneID <- as.character(with(Mapgene, geneID[match(genename,gene)]))
+  d <- cbind(GeneID,d)
+  #remove non-value Gene ID
+  d <- subset(d, GeneID != "NA")
+ d <- subset(d, select = -c(gene_id))
+
+  if ( any(d[2:nrow(d),2:ncol(d)] > 1000) ) {
+    #it appears to be raw counts
+    d = d %>% group_by(GeneID) %>% summarise_all(funs(sum))
+    e = "Aggregating duplicate rows by summing counts"
+  } else if ( all(d[2:nrow(d),2:ncol(d)] >= 0 & d[2:nrow(d),2:ncol(d)] <= 20) ) {
+    #it appears to be normalized log in some way
+    d = d %>% group_by(GeneID) %>% summarise_all(funs(geometric_mean))
+    e = "Aggregating duplicate rows by geometric mean averaging"
+
+  } else {
+    d = d %>% group_by(GeneID) %>% summarise_all(funs(mean))
+    e = "Aggregating duplicate rows by averaging"
+  }
+  #upload table output
+  din = as.data.frame(d)
+  rownames(din) <- as.character(din[,1])
+  din[,1] <- NULL
+  UserState$uploaded = din
+
+  gid = as.character(d$GeneID)
+  HGene <- as.character(with(Hgenes, gene[match(gid,geneID)]))
+  MGene <- as.character(with(Mgenes, gene[match(gid,geneID)]))
+  dout <- cbind(MGene,HGene,d)
+  dout = as.data.frame(dout)
+  rownames(dout) <- as.character(dout[,3])
+  dout[,3] <- NULL
+  return(dout)
+}
+
 #' computeSignatureScore Function
 #'
 #' This function computes the oncology models fidelity score based on the hallmarks of cancer
-#' @param X gene dataframe expression dataset either in z-score or log2(n+1) normalized 
+#' @param X gene dataframe expression dataset either in z-score or log2(n+1) normalized
 #' @param cancer string that shows the names of the cancer
 #' @keywords score
 #' @export
@@ -43,17 +82,17 @@ computeSignatureScore = function(X, cancer) {
     row.names(X) <- possible
     X <- data.frame(X)
     scores = data.frame()
-    
+
     n = length(signaturesForTissue)
     signature <- NULL
- 
+
     for (i in 1:n) {
         # Increment the progress bar, and update the detail text.
         # incProgress(1/n, detail = paste("Doing part", i, "of", n))
 
         signature    <- signaturesForTissue[[i]];
         hallmark <- signature$hallmark;
-        
+
         should  <- names(signature$w)
         genes    <- as.character(intersect(should, possible))
 
@@ -63,12 +102,12 @@ computeSignatureScore = function(X, cancer) {
         posScale <- signature$posScale;
         negScale <- signature$negScale;
         w = signature$w[genes]
-    
+
         XX <- t(X[genes,])
         #cat(XX);
-      
-    
-    
+
+
+
         raw = -XX %*% w + signature$b;
         #heat= XX * w + signature$b;
     for (j in 1:length(raw)) {
@@ -93,4 +132,6 @@ computeSignatureScore = function(X, cancer) {
 
     return (scores)
 }
+
+
 
