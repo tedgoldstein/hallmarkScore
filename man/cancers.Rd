@@ -12,3 +12,4 @@ This function returns a list of the currently supported cancers for the computeS
 \examples{
 cancers()
 }
+\keyword{score}

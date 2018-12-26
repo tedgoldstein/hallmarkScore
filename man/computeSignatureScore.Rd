@@ -16,6 +16,6 @@ This function computes the oncology models fidelity score based on the hallmarks
 }
 \examples{
 cancers()
-example_output = computeSignatureScore(example_input, "Brain")
+exampleOutput = computeSignatureScore(exampleInput, "Brain")
 }
 \keyword{score}

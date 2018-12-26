@@ -64,6 +64,8 @@ convertGeneNamesToGene_Id = function(d) {
 #' cancers Function
 #'
 #' This function returns a list of the currently supported cancers for the computeSignatureScore
+#' @keywords score
+#' @export
 #' @examples
 #' cancers()
 cancers = function() return(names(Signatures$index))
@@ -77,7 +79,7 @@ cancers = function() return(names(Signatures$index))
 #' @export
 #' @examples
 #' cancers()
-#' example_output = computeSignatureScore(example_input, "Brain")
+#' exampleOutput = computeSignatureScore(exampleInput, "Brain")
 
 computeSignatureScore = function(X, cancer) {
     X = convertGeneNamesToGene_Id(X)

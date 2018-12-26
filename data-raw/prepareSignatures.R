@@ -1,6 +1,5 @@
 library(devtools)
 library(roxygen2)
-setwd("data-raw")
 
 Signatures <- RJSONIO::fromJSON("signatures")
 usethis::use_data(Signatures, overwrite = TRUE)
