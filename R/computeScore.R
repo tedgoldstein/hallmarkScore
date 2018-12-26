@@ -76,7 +76,8 @@ cancers = function() return(names(Signatures$index))
 #' @keywords score
 #' @export
 #' @examples
-#' computeSignatureScore(df, "")
+#' Y = computeSignatureScore(example, "Brain")
+
 computeSignatureScore = function(X, cancer) {
     X = convertGeneNamesToGene_Id(X)
 
@@ -136,10 +137,9 @@ computeSignatureScore = function(X, cancer) {
 
     Hallmark = apply(scores, 1, function(x)  round(exp(mean(log(x)))))
 
-    return (scores)
+    return (cbind(Hallmark, scores))
 }
 
 
-Y = computeSignatureScore(X, "Brain")
 
 

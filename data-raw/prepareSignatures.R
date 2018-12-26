@@ -1,11 +1,16 @@
-setwd("data-raw")
+library(devtools)
+library(roxygen2)
 
 Signatures <- RJSONIO::fromJSON("signatures")
-usethis::use_data(Signatures)
+usethis::use_data(Signatures, overwrite = TRUE)
 
 Mapgene  = read.table("geneSymbol_to_geneID.txt", header = TRUE, sep = "\t")
 Hgenes  = read.table("HumanGeneSymbol_to_geneID.txt", header = TRUE, sep = "\t")
 Mgenes  = read.table("MouseGeneSymbol_to_geneID.txt", header = TRUE, sep = "\t")
-usethis::use_data(Mapgene)
-usethis::use_data(Hgenes)
-usethis::use_data(Mgenes)
+usethis::use_data(Mapgene, overwrite = TRUE)
+usethis::use_data(Hgenes, overwrite = TRUE)
+usethis::use_data(Mgenes, overwrite = TRUE)
+
+example = read.table("example.txt", header=TRUE, row.names=1)
+usethis::use_data(example, overwrite = TRUE)
+
