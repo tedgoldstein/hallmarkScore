@@ -1,9 +1,25 @@
 Package: hallmarkScore
-Title: What the Package Does (one line, title case)
-Version: 0.0.0.9000
-Authors@R: person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
+Title: Hallmarks of Cancer Score
+Version: 1.0.0.0001
+Authors@R: 
+    person(given = "Theodore",
+           family = "Goldstein",
+           role = c("aut", "cre"),
+           email = "tedgoldstein@gmail.com")
+    person(given = "Zhiping",
+           family = "Gu",
+           role = c("aut", "cre"),
+           email = "zgu@virusbrc.org")
+    person(given = "Albert",
+           family = "Yu",
+           role = c("aut", "cre"),
+           email = "albert.yu@esacinc.com")
+    person(given = "Debajyoti",
+           family = "Datta",
+           role = c("aut", "cre"),
+           email = "Debajyoti.Datta@ucsf.edu")
 Description: What the package does (one paragraph).
-Depends: R (>= 3.4.4)
-License: What license is it under?
+License: BSD-2-Clause
 Encoding: UTF-8
 LazyData: true
+RoxygenNote: 6.1.0
