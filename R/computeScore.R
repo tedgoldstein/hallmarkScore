@@ -28,12 +28,11 @@ rank.normalize <- function(x, FUN=qnorm, ties.method = "average", na.action) {
 convertGeneNamesToGene_Id = function(d) {
 
   #convert gene Symbol to geneID
-  genename <- as.character(colnames(d))
+  genename <- as.character(rownames(d))
   GeneID <- as.character(with(Mapgene, geneID[match(genename,gene)]))
   d <- cbind(GeneID,d)
   #remove non-value Gene ID
   d <- subset(d, GeneID != "NA")
- d <- subset(d, select = -c(gene_id))
 
   if ( any(d[2:nrow(d),2:ncol(d)] > 1000) ) {
     #it appears to be raw counts
@@ -48,11 +47,9 @@ convertGeneNamesToGene_Id = function(d) {
     d = d %>% group_by(GeneID) %>% summarise_all(funs(mean))
     e = "Aggregating duplicate rows by averaging"
   }
-  #upload table output
   din = as.data.frame(d)
   rownames(din) <- as.character(din[,1])
   din[,1] <- NULL
-  UserState$uploaded = din
 
   gid = as.character(d$GeneID)
   HGene <- as.character(with(Hgenes, gene[match(gid,geneID)]))
@@ -60,9 +57,16 @@ convertGeneNamesToGene_Id = function(d) {
   dout <- cbind(MGene,HGene,d)
   dout = as.data.frame(dout)
   rownames(dout) <- as.character(dout[,3])
-  dout[,3] <- NULL
+  dout[,1:3] <- NULL
   return(dout)
 }
+
+#' cancers Function
+#'
+#' This function returns a list of the currently supported cancers for the computeSignatureScore
+#' @examples
+#' cancers()
+cancers = function() return(names(Signatures$index))
 
 #' computeSignatureScore Function
 #'
@@ -74,7 +78,9 @@ convertGeneNamesToGene_Id = function(d) {
 #' @examples
 #' computeSignatureScore(df, "")
 computeSignatureScore = function(X, cancer) {
-    signaturesForTissue <- Filter(function(ss) ss$cancer == cancer, Signatures$signatures)
+    X = convertGeneNamesToGene_Id(X)
+
+    signaturesForTissue <-  Signatures$signatures[Signatures$index[[cancer]]]
 
     possible = as.character(row.names(X))
     X = apply(X, 2, function(x) scale(rank.normalize(x), scale=TRUE, center=TRUE))
@@ -133,5 +139,7 @@ computeSignatureScore = function(X, cancer) {
     return (scores)
 }
 
+
+Y = computeSignatureScore(X, "Brain")
 
 
