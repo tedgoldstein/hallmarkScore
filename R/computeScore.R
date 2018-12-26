@@ -1,8 +1,7 @@
 library(dplyr)
 library(pracma)
 
-options(shiny.maxRequestSize=50*1024^2) 
-
+hallmark_columns = c(
     "Evading_growth_suppressors",
     "Sustaining_proliferative_signaling",
     "Reprogramming_energy_metabolism",
