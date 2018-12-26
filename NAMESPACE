@@ -2,4 +2,4 @@
 
 export(computeSignatureScore)
 export(cancers)
-export(example)
+export(example_input)
