@@ -1,5 +1,6 @@
 library(devtools)
 library(roxygen2)
+setwd("data-raw")
 
 Signatures <- RJSONIO::fromJSON("signatures")
 usethis::use_data(Signatures, overwrite = TRUE)
@@ -11,6 +12,6 @@ usethis::use_data(Mapgene, overwrite = TRUE)
 usethis::use_data(Hgenes, overwrite = TRUE)
 usethis::use_data(Mgenes, overwrite = TRUE)
 
-example_input = read.table("example_input.txt", header=TRUE, row.names=1)
-usethis::use_data(example_input, overwrite = TRUE)
+exampleInput = read.table("exampleInput.txt", header=TRUE, row.names=1)
+usethis::use_data(exampleInput, overwrite = TRUE)
 
