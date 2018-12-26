@@ -11,6 +11,6 @@ usethis::use_data(Mapgene, overwrite = TRUE)
 usethis::use_data(Hgenes, overwrite = TRUE)
 usethis::use_data(Mgenes, overwrite = TRUE)
 
-example_input = read.table("example_input", header=TRUE, row.names=1)
+example_input = read.table("example_input.txt", header=TRUE, row.names=1)
 usethis::use_data(example_input, overwrite = TRUE)
 
